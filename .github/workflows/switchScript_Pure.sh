@@ -329,28 +329,21 @@ REPO="DarkMatterCore/nxdumptool" FILE_PATTERN="nxdt_rw_poc.*[.]nro$" END_KEY="nr
 echo "nxdumptool-rewrite latest" >> ../description.txt
 
 # ==================================================================
-APP_NAME="daybreak"
-REPO="Atmosphere-NX/Atmosphere" FILE_PATTERN="daybreak.*[.]nro$" END_KEY="nro"
-# ==================================================================
-fetch_api; get_version
-download_file; check_result
-
-mkdir -p ./switch
-mv "${APP_NAME}.${END_KEY}" ./switch
-
-# ==================================================================
 APP_NAME="sphaira"
-REPO="ITotalJustice/sphaira" FILE_PATTERN="sphaira.*[.]nro$" END_KEY="nro"
+REPO="ITotalJustice/sphaira" FILE_PATTERN="sphaira[.]zip$" END_KEY="zip"
 # ==================================================================
 fetch_api; get_version
-download_file; check_result; move_to_dir ./switch/sphaira
+download_file; check_result; unzip_and_clean
 
 # ==================================================================
 APP_NAME="hbmenu"
-REPO="switchbrew/nx-hbmenu" FILE_PATTERN="hbmenu.*[.]nro$" END_KEY="nro"
+REPO="switchbrew/nx-hbmenu" FILE_PATTERN="nx-hbmenu.*[.]zip$" END_KEY="zip"
 # ==================================================================
 fetch_api; get_version
-download_file; check_result
+download_file; check_result; unzip_and_clean
+
+mkdir -p ./switch
+mv hbmenu.nro ./switch
 
 # ==================================================================
 APP_NAME="hbl"
