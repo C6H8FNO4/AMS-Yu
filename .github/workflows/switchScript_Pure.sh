@@ -78,6 +78,8 @@ mkdir -p "${WORK_DIR}"
 mkdir -p "${WORK_DIR}/atmosphere/config"
 mkdir -p "${WORK_DIR}/atmosphere/hosts"
 mkdir -p "${WORK_DIR}/bootloader/ini"
+mkdir -p "${WORK_DIR}/config/JKSV"
+mkdir -p "${WORK_DIR}/config/sphaira"
 #mkdir -p "${WORK_DIR}/emuiibo/overlay"
 
 cd "${WORK_DIR}"
