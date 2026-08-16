@@ -1,2 +1,5 @@
 # Temporary GitHub API response files
 latest.json
+
+# Firmware is too large to commit (>100MB GitHub limit); download on demand
+resource/firmware/
