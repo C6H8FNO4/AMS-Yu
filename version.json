@@ -1,1 +1,134 @@
-{}
+{
+  "Atmosphere": {
+    "version": "1.11.2",
+    "tag": "1.11.2"
+  },
+  "Hekate": {
+    "version": "6.5.3",
+    "tag": "v6.5.3"
+  },
+  "Sys-patch": {
+    "version": "1.6.2.3-f79eb89",
+    "tag": "v1.6.2.3-f79eb89"
+  },
+  "fusee": {
+    "version": "1.11.2",
+    "tag": "1.11.2"
+  },
+  "Lockpick_RCM": {
+    "version": "1.9.20",
+    "tag": "1.9.20"
+  },
+  "TegraExplorer": {
+    "version": "4.2.0",
+    "tag": "v4.2.0"
+  },
+  "CommonProblemResolver": {
+    "version": "0.3.4",
+    "tag": "0.3.4"
+  },
+  "Switch_90DNS_tester": {
+    "version": "1.1.0",
+    "tag": "v1.1.0"
+  },
+  "DBI": {
+    "version": "905ru",
+    "tag": "905ru"
+  },
+  "dbi": {
+    "version": "905ru",
+    "tag": "905ru"
+  },
+  "Awoo-Installer": {
+    "version": "1.3.6",
+    "tag": "1.3.6"
+  },
+  "HekateToolbox": {
+    "version": "4.0.5",
+    "tag": "4.0.5"
+  },
+  "NX-Activity-Log": {
+    "version": "1.5.8",
+    "tag": "v1.5.8"
+  },
+  "NXThemesInstaller": {
+    "version": "nxt-2.9",
+    "tag": "nxt-2.9"
+  },
+  "JKSV": {
+    "version": "12/02/2025",
+    "tag": "12/02/2025"
+  },
+  "Tencent-switcher-gui": {
+    "version": "0.1.2",
+    "tag": "v0.1.2"
+  },
+  "Aio-switch-updater": {
+    "version": "2.23.3",
+    "tag": "2.23.3"
+  },
+  "wiliwili": {
+    "version": "1.6.0",
+    "tag": "v1.6.0"
+  },
+  "SimpleModDownloader": {
+    "version": "2.3.0",
+    "tag": "2.3.0"
+  },
+  "Switchfin": {
+    "version": "0.9.3",
+    "tag": "0.9.3"
+  },
+  "Moonlight-Switch": {
+    "version": "1.5.0",
+    "tag": "v1.5.0"
+  },
+  "appstore": {
+    "version": "2.3.2",
+    "tag": "v2.3.2"
+  },
+  "ReverseNX-Tool": {
+    "version": "3.2.1-1cab24e",
+    "tag": "v3.2.1-1cab24e"
+  },
+  "Goldleaf": {
+    "version": "1.2.0",
+    "tag": "1.2.0"
+  },
+  "Safe_Reboot_Shutdown": {
+    "version": "1.2.1",
+    "tag": "v1.2.1"
+  },
+  "Haku33": {
+    "version": "7.2",
+    "tag": "7.2"
+  },
+  "linkalho": {
+    "version": "2.0.2",
+    "tag": "v2.0.2"
+  },
+  "Checkpoint": {
+    "version": "5.1.0",
+    "tag": "v5.1.0"
+  },
+  "ftpd": {
+    "version": "3.2.1",
+    "tag": "v3.2.1"
+  },
+  "nxdumptool": {
+    "version": "rewrite-prerelease",
+    "tag": "rewrite-prerelease"
+  },
+  "sphaira": {
+    "version": "1.0.6",
+    "tag": "1.0.6"
+  },
+  "hbmenu": {
+    "version": "3.6.1",
+    "tag": "v3.6.1"
+  },
+  "hbl": {
+    "version": "2.4.5",
+    "tag": "v2.4.5"
+  }
+}
