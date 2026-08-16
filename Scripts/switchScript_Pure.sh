@@ -3,52 +3,8 @@
 set -e
 
 # ------------------------------------------------------------------
-# GitHub API Helpers & Common Functions
-# Author: gzk_47
+# Common Functions
 # ------------------------------------------------------------------
-
-# GitHub API Headers (to avoid rate limiting)
-API_AUTH="Authorization: Bearer ${GITHUB_TOKEN}"
-API_VER="X-GitHub-Api-Version: 2026-03-10"
-
-# Fetch latest releases JSON from GitHub API
-fetch_api() {
-    API_URL="https://api.github.com/repos/${REPO}/releases"
-    curl -H "${API_AUTH}" -H "${API_VER}" -o latest.json -sL "${API_URL}"
-}
-fetch_api_latest() {
-    API_URL="https://api.github.com/repos/${REPO}/releases/latest"
-    curl -H "${API_AUTH}" -H "${API_VER}" -o latest.json -sL "${API_URL}"
-}
-
-# Parse version tag from JSON and write to description
-get_version() {
-    VERSION=$(jq -r 'first(.[]|select(.assets|any(.name|test("'"${FILE_PATTERN}"'")))).tag_name' latest.json | sed 's/^v//')
-    echo "${APP_NAME} ${VERSION}" >> ../description.txt
-}
-get_version_latest() {
-    VERSION=$(jq -r '.tag_name' latest.json | sed 's/^v//')
-    echo "${APP_NAME} ${VERSION}" >> ../description.txt
-}
-
-# Download matched asset from GitHub release
-download_file() {
-    DL_URL=$(jq -r 'first(.[]|select(.assets|any(.name|test("'"${FILE_PATTERN}"'")))).assets[] | select(.name|test("'"${FILE_PATTERN}"'")) | .browser_download_url' latest.json)
-    curl -sL "${DL_URL}" -o "${APP_NAME}.${END_KEY}"
-}
-download_file_latest() {
-    DL_URL=$(jq -r '.assets[] | select(.name|test("'"${FILE_PATTERN}"'")) | .browser_download_url' latest.json)
-    curl -sL "${DL_URL}" -o "${APP_NAME}.${END_KEY}"
-}
-
-# Check last command result and print status
-check_result() {
-    if [ $? -ne 0 ]; then
-        echo "${APP_NAME} \033[31m❌\033[0m"
-    else
-        echo "${APP_NAME} \033[32m✅\033[0m"
-    fi
-}
 
 # Unzip package and remove archive
 unzip_and_clean() {
@@ -62,17 +18,16 @@ move_to_dir() {
     mv "${APP_NAME}.${END_KEY}" "${1}"
 }
 
-# Copy file from resource dir if present, otherwise fall back to GitHub download
-# Usage: copy_or_download "SOURCE_DIR"
-copy_or_download() {
+# Copy file from resource dir; skip with error if missing
+# Usage: copy_from_resource "SOURCE_DIR"
+copy_from_resource() {
     SOURCE_DIR="$1"
     if [ -f "../resource/${SOURCE_DIR}/${APP_NAME}.${END_KEY}" ]; then
         cp "../resource/${SOURCE_DIR}/${APP_NAME}.${END_KEY}" "${APP_NAME}.${END_KEY}"
         echo "${APP_NAME} \033[32m✅ (from resource)\033[0m"
     else
-        fetch_api
-        get_version
-        download_file
+        echo "${APP_NAME} \033[31m❌ 文件不存在: resource/${SOURCE_DIR}/${APP_NAME}.${END_KEY}\033[0m"
+        return 1
     fi
 }
 
@@ -107,28 +62,24 @@ cat >> ../description.txt << ENDOFFILE
 ENDOFFILE
 
 # ==================================================================
-APP_NAME="Atmosphere"
-REPO="Atmosphere-NX/Atmosphere" FILE_PATTERN="atmosphere.*[.]zip$" END_KEY="zip"
+APP_NAME="Atmosphere" END_KEY="zip"
 # ==================================================================
-copy_or_download "Atmosphere"; check_result; unzip_and_clean
+copy_from_resource "Atmosphere" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="fusee"
-REPO="Atmosphere-NX/Atmosphere" FILE_PATTERN="fusee.*[.]bin$" END_KEY="bin"
+APP_NAME="fusee" END_KEY="bin"
 # ==================================================================
-copy_or_download "Payloads"; check_result; move_to_dir ./bootloader/payloads
+copy_from_resource "Payloads" && move_to_dir ./bootloader/payloads || true
 
 # ==================================================================
-APP_NAME="Hekate"
-REPO="easyworld/hekate" FILE_PATTERN="_sc.*[.]zip$" END_KEY="zip"
+APP_NAME="Hekate" END_KEY="zip"
 # ==================================================================
-copy_or_download "hekate"; check_result; unzip_and_clean
+copy_from_resource "hekate" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="Sys-patch"
-REPO="gzk47/sys-patch" FILE_PATTERN="sys-patch.*[.]zip$" END_KEY="zip"
+APP_NAME="Sys-patch" END_KEY="zip"
 # ==================================================================
-copy_or_download "apps"; check_result; unzip_and_clean
+copy_from_resource "apps" && unzip_and_clean || true
 
 rm -rf switch/.overlays
 
@@ -143,22 +94,19 @@ Hekate payloads 二次引导软件：
 ENDOFFILE
 
 # ==================================================================
-APP_NAME="Lockpick_RCM"
-REPO="impeeza/Lockpick_RCMDecScots" FILE_PATTERN="Lockpick_RCM.*[.]bin$" END_KEY="bin"
+APP_NAME="Lockpick_RCM" END_KEY="bin"
 # ==================================================================
-copy_or_download "Payloads"; check_result; move_to_dir ./bootloader/payloads
+copy_from_resource "Payloads" && move_to_dir ./bootloader/payloads || true
 
 # ==================================================================
-APP_NAME="TegraExplorer"
-REPO="zdm65477730/TegraExplorer" FILE_PATTERN="TegraExplorer.*[.]bin$" END_KEY="bin"
+APP_NAME="TegraExplorer" END_KEY="bin"
 # ==================================================================
-copy_or_download "Payloads"; check_result; move_to_dir ./bootloader/payloads
+copy_from_resource "Payloads" && move_to_dir ./bootloader/payloads || true
 
 # ==================================================================
-APP_NAME="CommonProblemResolver"
-REPO="zdm65477730/CommonProblemResolver" FILE_PATTERN="CommonProblemResolver.*[.]bin$" END_KEY="bin"
+APP_NAME="CommonProblemResolver" END_KEY="bin"
 # ==================================================================
-copy_or_download "Payloads"; check_result; move_to_dir ./bootloader/payloads
+copy_from_resource "Payloads" && move_to_dir ./bootloader/payloads || true
 
 # ------------------------------------------------------------------
 
@@ -171,167 +119,134 @@ cat >> ../description.txt << ENDOFFILE
 ENDOFFILE
 
 # ==================================================================
-APP_NAME="Switch_90DNS_tester" NRO_DIR_NAME="S90NS"
-REPO="meganukebmp/Switch_90DNS_tester" FILE_PATTERN="Switch_90DNS_tester.*[.]nro$" END_KEY="nro"
+APP_NAME="Switch_90DNS_tester" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/S90NS
+copy_from_resource "apps" && move_to_dir ./switch/S90NS || true
 
 # ==================================================================
-APP_NAME="DBI" NRO_DIR_NAME="DBI"
-REPO="rashevskyv/dbi" FILE_PATTERN="DBI.*[.]nro$" END_KEY="nro"
+APP_NAME="DBI" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/DBI
+copy_from_resource "apps" && move_to_dir ./switch/DBI || true
 
 # ==================================================================
-APP_NAME="dbi" NRO_DIR_NAME="DBI"
-REPO="rashevskyv/dbi" FILE_PATTERN="dbi.*[.]config$" END_KEY="config"
+APP_NAME="dbi" END_KEY="config"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/DBI
+copy_from_resource "apps" && move_to_dir ./switch/DBI || true
 
 # ==================================================================
-APP_NAME="Awoo-Installer"
-REPO="Huntereb/Awoo-Installer" FILE_PATTERN="Awoo-Installer.*[.]zip$" END_KEY="zip"
+APP_NAME="Awoo-Installer" END_KEY="zip"
 # ==================================================================
-copy_or_download "apps"; check_result; unzip_and_clean
+copy_from_resource "apps" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="HekateToolbox"
-REPO="gzk47/Hekate-Toolbox" FILE_PATTERN="HekateToolbox.*[.]nro$" END_KEY="nro"
+APP_NAME="HekateToolbox" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/HekateToolbox
+copy_from_resource "apps" && move_to_dir ./switch/HekateToolbox || true
 
 # ==================================================================
-APP_NAME="NX-Activity-Log"
-REPO="zdm65477730/NX-Activity-Log" FILE_PATTERN="NX-Activity-Log.*[.]nro$" END_KEY="nro"
+APP_NAME="NX-Activity-Log" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/NX-Activity-Log
+copy_from_resource "apps" && move_to_dir ./switch/NX-Activity-Log || true
 
 # ==================================================================
-APP_NAME="NXThemesInstaller" NRO_DIR_NAME="NXThemesInstaller"
-REPO="exelix11/SwitchThemeInjector" FILE_PATTERN="NXThemesInstaller.*[.]nro$" END_KEY="nro"
+APP_NAME="NXThemesInstaller" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/NXThemesInstaller
+copy_from_resource "apps" && move_to_dir ./switch/NXThemesInstaller || true
 
 # ==================================================================
-APP_NAME="JKSV" NRO_DIR_NAME="JKSV"
-REPO="J-D-K/JKSV" FILE_PATTERN="JKSV.*[.]nro$" END_KEY="nro"
+APP_NAME="JKSV" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/JKSV
+copy_from_resource "apps" && move_to_dir ./switch/JKSV || true
 
 # ==================================================================
-APP_NAME="Tencent-switcher-gui"
-REPO="gzk47/Tencent-switcher-GUI" FILE_PATTERN="tencent-switcher-gui.*[.]nro$" END_KEY="nro"
+APP_NAME="Tencent-switcher-gui" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/Tencent-switcher-gui
+copy_from_resource "apps" && move_to_dir ./switch/Tencent-switcher-gui || true
 
 # ==================================================================
-APP_NAME="Aio-switch-updater"
-REPO="HamletDuFromage/aio-switch-updater" FILE_PATTERN="aio-switch-updater.*[.]zip$" END_KEY="zip"
+APP_NAME="Aio-switch-updater" END_KEY="zip"
 # ==================================================================
-copy_or_download "apps"; check_result; unzip_and_clean
+copy_from_resource "apps" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="wiliwili" NRO_DIR_NAME="wiliwili"
-REPO="xfangfang/wiliwili" FILE_PATTERN="wiliwili-NintendoSwitch.*[.]zip$" END_KEY="zip"
+APP_NAME="wiliwili" END_KEY="zip"
 # ==================================================================
-copy_or_download "apps"; check_result; unzip_and_clean
+copy_from_resource "apps" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="SimpleModDownloader" NRO_DIR_NAME="SimpleModDownloader"
-REPO="PoloNX/SimpleModDownloader" FILE_PATTERN="SimpleModDownloader.*[.]nro$" END_KEY="nro"
+APP_NAME="SimpleModDownloader" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/SimpleModDownloader
+copy_from_resource "apps" && move_to_dir ./switch/SimpleModDownloader || true
 
 # ==================================================================
-APP_NAME="Switchfin" NRO_DIR_NAME="Switchfin"
-REPO="dragonflylee/Switchfin" FILE_PATTERN="Switchfin.*[.]nro$" END_KEY="nro"
+APP_NAME="Switchfin" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/Switchfin
+copy_from_resource "apps" && move_to_dir ./switch/Switchfin || true
 
 # ==================================================================
-APP_NAME="Moonlight-Switch" NRO_DIR_NAME="Moonlight-Switch"
-REPO="XITRIX/Moonlight-Switch" FILE_PATTERN="Moonlight-Switch.*[.]nro$" END_KEY="nro"
+APP_NAME="Moonlight-Switch" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/Moonlight-Switch
+copy_from_resource "apps" && move_to_dir ./switch/Moonlight-Switch || true
 
 # ==================================================================
-APP_NAME="appstore" NRO_DIR_NAME="appstore"
-REPO="fortheusers/hb-appstore" FILE_PATTERN="appstore.*[.]nro$" END_KEY="nro"
+APP_NAME="appstore" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/appstore
+copy_from_resource "apps" && move_to_dir ./switch/appstore || true
 
 # ==================================================================
-APP_NAME="ReverseNX-Tool"
-REPO="gzk47/ReverseNX-Tool" FILE_PATTERN="ReverseNX-Tool.*[.]nro$" END_KEY="nro"
+APP_NAME="ReverseNX-Tool" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/ReverseNX-Tool
+copy_from_resource "apps" && move_to_dir ./switch/ReverseNX-Tool || true
 
 # ==================================================================
-APP_NAME="Goldleaf" NRO_DIR_NAME="Goldleaf"
-REPO="XorTroll/Goldleaf" FILE_PATTERN="Goldleaf.*[.]nro$" END_KEY="nro"
+APP_NAME="Goldleaf" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/Goldleaf
+copy_from_resource "apps" && move_to_dir ./switch/Goldleaf || true
 
 # ==================================================================
-APP_NAME="Safe_Reboot_Shutdown" NRO_DIR_NAME="Safe_Reboot_Shutdown"
-REPO="gzk47/Safe_Reboot_Shutdown" FILE_PATTERN="Safe_Reboot_Shutdown.*[.]nro$" END_KEY="nro"
+APP_NAME="Safe_Reboot_Shutdown" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/Safe_Reboot_Shutdown
+copy_from_resource "apps" && move_to_dir ./switch/Safe_Reboot_Shutdown || true
 
 # ==================================================================
-APP_NAME="Haku33" NRO_DIR_NAME="Haku33"
-REPO="StarDustCFW/Haku33" FILE_PATTERN="Haku33.*[.]nro$" END_KEY="nro"
+APP_NAME="Haku33" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/Haku33
+copy_from_resource "apps" && move_to_dir ./switch/Haku33 || true
 
 # ==================================================================
-APP_NAME="linkalho" NRO_DIR_NAME="linkalho"
-REPO="impeeza/linkalho" FILE_PATTERN="linkalho.*[.]zip$" END_KEY="zip"
+APP_NAME="linkalho" END_KEY="zip"
 # ==================================================================
-copy_or_download "apps"; check_result; unzip_and_clean
+copy_from_resource "apps" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="Checkpoint" NRO_DIR_NAME="Checkpoint"
-REPO="BernardoGiordano/Checkpoint" FILE_PATTERN="Checkpoint.*[.]nro$" END_KEY="nro"
+APP_NAME="Checkpoint" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/Checkpoint
+copy_from_resource "apps" && move_to_dir ./switch/Checkpoint || true
 
 # ==================================================================
-APP_NAME="ftpd" NRO_DIR_NAME="ftpd"
-REPO="mtheall/ftpd" FILE_PATTERN="ftpd[.]nro$" END_KEY="nro"
+APP_NAME="ftpd" END_KEY="nro"
 # ==================================================================
-copy_or_download "apps"; check_result; move_to_dir ./switch/ftpd
+copy_from_resource "apps" && move_to_dir ./switch/ftpd || true
 
 # ==================================================================
 APP_NAME="nxdumptool"
-REPO="DarkMatterCore/nxdumptool" FILE_PATTERN="nxdt_rw_poc.*[.]nro$" END_KEY="nro"
 # ==================================================================
-#API_URL="https://github.com/${REPO}/releases/download/rewrite-prerelease/${FILE_PATTERN}.${END_KEY}"
-#curl -sL "${API_URL}" -o "${APP_NAME}.${END_KEY}"
 echo "nxdumptool-rewrite latest" >> ../description.txt
 
 # ==================================================================
-APP_NAME="sphaira"
-REPO="ITotalJustice/sphaira" FILE_PATTERN="sphaira[.]zip$" END_KEY="zip"
+APP_NAME="sphaira" END_KEY="zip"
 # ==================================================================
-copy_or_download "apps"; check_result; unzip_and_clean
+copy_from_resource "apps" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="hbmenu"
-REPO="switchbrew/nx-hbmenu" FILE_PATTERN="nx-hbmenu.*[.]zip$" END_KEY="zip"
+APP_NAME="hbmenu" END_KEY="zip"
 # ==================================================================
-copy_or_download "apps"; check_result; unzip_and_clean
-
-mkdir -p ./switch
-mv hbmenu.nro ./switch
+copy_from_resource "apps" && unzip_and_clean && mkdir -p ./switch && mv hbmenu.nro ./switch || true
 
 # ==================================================================
-APP_NAME="hbl"
-REPO="switchbrew/nx-hbloader" FILE_PATTERN="hbl.*[.]nsp$" END_KEY="nsp"
+APP_NAME="hbl" END_KEY="nsp"
 # ==================================================================
-copy_or_download "apps"; check_result
-
-mv "${APP_NAME}.${END_KEY}" ./atmosphere
+copy_from_resource "apps" && mv "${APP_NAME}.${END_KEY}" ./atmosphere || true
 
 # ------------------------------------------------------------------
 

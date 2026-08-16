@@ -125,9 +125,9 @@ check_and_download() {
 # ------------------------------------------------------------------
 
 # Core suite
-check_and_download "Atmosphere" "Atmosphere-NX/Atmosphere" "atmosphere.*[.]zip$" "zip" "resource/Atmosphere"
-check_and_download "Hekate" "easyworld/hekate" "_sc.*[.]zip$" "zip" "resource/hekate"
-check_and_download "Sys-patch" "gzk47/sys-patch" "sys-patch.*[.]zip$" "zip" "resource/apps"
+check_and_download "atmosphere" "Atmosphere-NX/Atmosphere" "atmosphere.*[.]zip$" "zip" "resource/Atmosphere"
+check_and_download "hekate" "easyworld/hekate" "_sc.*[.]zip$" "zip" "resource/hekate"
+check_and_download "sys-patch" "gzk47/sys-patch" "sys-patch.*[.]zip$" "zip" "resource/sys-patch"
 
 # Secondary boot payloads
 check_and_download "fusee" "Atmosphere-NX/Atmosphere" "fusee.*[.]bin$" "bin" "resource/Payloads"
