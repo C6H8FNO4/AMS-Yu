@@ -103,8 +103,12 @@ check_and_download() {
     fi
 
     if ! has_update; then
-        echo "${APP_NAME} \033[33m已是最新 (${LAST_TAG})\033[0m"
-        return 0
+        # 若目标文件不存在（如目录变更后首次运行），仍强制下载
+        if [ -f "${TARGET_DIR}/${APP_NAME}.${END_KEY}" ]; then
+            echo "${APP_NAME} \033[33m已是最新 (${LAST_TAG})\033[0m"
+            return 0
+        fi
+        echo "${APP_NAME} \033[33m已是最新 (${LAST_TAG})，但文件缺失，重新下载\033[0m"
     fi
 
     mkdir -p "${TARGET_DIR}"
