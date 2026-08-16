@@ -84,17 +84,17 @@ ENDOFFILE
 # ==================================================================
 APP_NAME="Atmosphere" END_KEY="zip"
 # ==================================================================
-copy_from_resource "Atmosphere" && unzip_and_clean || true
+copy_from_resource "base" && unzip_and_clean || true
 
 # ==================================================================
 APP_NAME="fusee" END_KEY="bin"
 # ==================================================================
-copy_from_resource "Payloads" && move_to_dir "${PAYLOAD_DIR}" || true
+copy_from_resource "base" && move_to_dir "${PAYLOAD_DIR}" || true
 
 # ==================================================================
 APP_NAME="Hekate" END_KEY="zip"
 # ==================================================================
-copy_from_resource "hekate" && unzip_and_clean || true
+copy_from_resource "base" && unzip_and_clean || true
 
 # ==================================================================
 APP_NAME="Sys-patch" END_KEY="zip"
