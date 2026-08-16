@@ -1,0 +1,82 @@
+name: Update and Build
+
+on:
+  workflow_dispatch:
+
+env:
+  UPDATE_SCRIPT: ./Scripts/update_check.sh
+  BUILD_SCRIPT: ./Scripts/switchScript_Pure.sh
+  TZ: Asia/Shanghai
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  update-and-build:
+    name: Update and Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          clean: true
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Initialization environment
+        run: |
+          sudo -E apt install -y jq unzip zip
+
+      - name: Run update check script
+        run: |
+          chmod +x $UPDATE_SCRIPT
+          ./$UPDATE_SCRIPT
+
+      - name: Commit and push updates
+        run: |
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "No updates detected."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "chore: update software packages $(date '+%Y-%m-%d %H:%M:%S')"
+            git push origin main
+          fi
+
+      - name: Build and Extract version
+        run: |
+          chmod +x $BUILD_SCRIPT
+          ./$BUILD_SCRIPT
+
+          APP_NAME="心悦大气层中文整合包"
+          VER_FILE="description.txt"
+          KEY="Atmosphere"
+
+          VERSION=$(grep -F "$KEY" "$VER_FILE" | grep -oE '[0-9]+' | head -3 | paste -s -d '.')
+          DATE=$(date +%Y%m%d)
+          TIME=$(date +%H%M%S)
+          DATE_TIME=$(date '+%Y%m%d %H:%M:%S')
+          RUN_ID=${GITHUB_RUN_NUMBER}
+
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+          echo "TAG_NAME=${DATE}-${TIME}-${RUN_ID}" >> "$GITHUB_ENV"
+          echo "RELEASE_NAME=${APP_NAME} v${DATE_TIME}" >> "$GITHUB_ENV"
+
+          zip -rq AMS-Pure.zip AMS-Pure
+          mv AMS-Pure.zip AMS-${VERSION}-Pure-v${DATE}.zip
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          name: ${{ env.RELEASE_NAME }}
+          body_path: description.txt
+          draft: false
+          prerelease: false
+          generate_release_notes: false
+          make_latest: true
+          files: |
+            AMS-*.zip
