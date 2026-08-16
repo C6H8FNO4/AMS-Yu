@@ -142,5 +142,9 @@
   "sys-patch": {
     "version": "1.6.2.3-f79eb89",
     "tag": "v1.6.2.3-f79eb89"
+  },
+  "Firmware": {
+    "version": "latest",
+    "tag": "latest"
   }
 }
