@@ -31,6 +31,15 @@ copy_from_resource() {
     fi
 }
 
+# Write app version from version.json to description file
+# Uses current APP_NAME; version.json is at repo root (../version.json after cd)
+write_version() {
+    VER=$(jq -r --arg app "${APP_NAME}" '.[$app].version // empty' ../version.json)
+    if [ -n "${VER}" ]; then
+        echo "- ${APP_NAME}: ${VER}" >> "${DESCRIPTION_FILE}"
+    fi
+}
+
 # ------------------------------------------------------------------
 # 路径配置（类似环境变量）
 # ------------------------------------------------------------------
@@ -77,29 +86,33 @@ DESCRIPTION_FILE="../description.txt"
 
 
 cat >> "${DESCRIPTION_FILE}" << ENDOFFILE
-大气层核心套件：
- 
+## 大气层核心套件
+
 ENDOFFILE
 
 # ==================================================================
 APP_NAME="Atmosphere" END_KEY="zip"
 # ==================================================================
 copy_from_resource "base" && unzip_and_clean || true
+write_version
 
 # ==================================================================
 APP_NAME="fusee" END_KEY="bin"
 # ==================================================================
 copy_from_resource "base" && move_to_dir "${PAYLOAD_DIR}" || true
+write_version
 
 # ==================================================================
 APP_NAME="Hekate" END_KEY="zip"
 # ==================================================================
 copy_from_resource "base" && unzip_and_clean || true
+write_version
 
 # ==================================================================
 APP_NAME="Sys-patch" END_KEY="zip"
 # ==================================================================
 copy_from_resource "base" && unzip_and_clean || true
+write_version
 
 rm -rf "${SWITCH_DIR}/.overlays"
 
@@ -108,150 +121,175 @@ rm -rf "${SWITCH_DIR}/.overlays"
 cat >> "${DESCRIPTION_FILE}" << ENDOFFILE
  
 ------------------------------------------------------------------
- 
-Hekate payloads 二次引导软件：
- 
+
+## Hekate payloads 二次引导软件
+
 ENDOFFILE
 
 # ==================================================================
 APP_NAME="Lockpick_RCM" END_KEY="bin"
 # ==================================================================
 copy_from_resource "Payloads" && move_to_dir "${PAYLOAD_DIR}" || true
+write_version
 
 # ==================================================================
 APP_NAME="TegraExplorer" END_KEY="bin"
 # ==================================================================
 copy_from_resource "Payloads" && move_to_dir "${PAYLOAD_DIR}" || true
+write_version
 
 # ==================================================================
 APP_NAME="CommonProblemResolver" END_KEY="bin"
 # ==================================================================
 copy_from_resource "Payloads" && move_to_dir "${PAYLOAD_DIR}" || true
+write_version
 
 # ------------------------------------------------------------------
 
 cat >> "${DESCRIPTION_FILE}" << ENDOFFILE
  
 ------------------------------------------------------------------
- 
-相册nro软件：
- 
+
+## 相册nro软件
+
 ENDOFFILE
 
 # ==================================================================
 APP_NAME="Switch_90DNS_tester" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/S90NS" || true
+write_version
 
 # ==================================================================
 APP_NAME="DBI" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/DBI" || true
+write_version
 
 # ==================================================================
 APP_NAME="Awoo-Installer" END_KEY="zip"
 # ==================================================================
 copy_from_resource "apps" && unzip_and_clean || true
+write_version
 
 # ==================================================================
 APP_NAME="HekateToolbox" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/HekateToolbox" || true
+write_version
 
 # ==================================================================
 APP_NAME="NX-Activity-Log" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/NX-Activity-Log" || true
+write_version
 
 # ==================================================================
 APP_NAME="NXThemesInstaller" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/NXThemesInstaller" || true
+write_version
 
 # ==================================================================
 APP_NAME="JKSV" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/JKSV" || true
+write_version
 
 # ==================================================================
 APP_NAME="Tencent-switcher-gui" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/Tencent-switcher-gui" || true
+write_version
 
 # ==================================================================
 APP_NAME="Aio-switch-updater" END_KEY="zip"
 # ==================================================================
 copy_from_resource "apps" && unzip_and_clean || true
+write_version
 
 # ==================================================================
 APP_NAME="SimpleModDownloader" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/SimpleModDownloader" || true
+write_version
 
 # ==================================================================
 APP_NAME="Switchfin" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/Switchfin" || true
+write_version
 
 # ==================================================================
 APP_NAME="Moonlight-Switch" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/Moonlight-Switch" || true
+write_version
 
 # ==================================================================
 APP_NAME="appstore" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/appstore" || true
+write_version
 
 # ==================================================================
 APP_NAME="ReverseNX-Tool" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/ReverseNX-Tool" || true
+write_version
 
 # ==================================================================
 APP_NAME="Goldleaf" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/Goldleaf" || true
+write_version
 
 # ==================================================================
 APP_NAME="Safe_Reboot_Shutdown" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/Safe_Reboot_Shutdown" || true
+write_version
 
 # ==================================================================
 APP_NAME="Haku33" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/Haku33" || true
+write_version
 
 # ==================================================================
 APP_NAME="linkalho" END_KEY="zip"
 # ==================================================================
 copy_from_resource "apps" && unzip_and_clean || true
+write_version
 
 # ==================================================================
 APP_NAME="Checkpoint" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/Checkpoint" || true
+write_version
 
 # ==================================================================
 APP_NAME="ftpd" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/ftpd" || true
+write_version
 
 # ==================================================================
 APP_NAME="nxdumptool"
 # ==================================================================
-echo "nxdumptool-rewrite latest" >> "${DESCRIPTION_FILE}"
+write_version
 
 # ==================================================================
 APP_NAME="sphaira" END_KEY="zip"
 # ==================================================================
 copy_from_resource "apps" && unzip_and_clean || true
+write_version
 
 # ==================================================================
 APP_NAME="hbl" END_KEY="nsp"
 # ==================================================================
 copy_from_resource "apps" && mv "${APP_NAME}.${END_KEY}" "${ATMOSPHERE_DIR}" || true
+write_version
 
 # ------------------------------------------------------------------
 # special download: 特殊软件，解压到特定位置
@@ -262,12 +300,14 @@ copy_from_resource "apps" && mv "${APP_NAME}.${END_KEY}" "${ATMOSPHERE_DIR}" || 
 APP_NAME="wiliwili" END_KEY="zip"
 # ==================================================================
 copy_from_resource "apps" && unzip_and_clean && mkdir -p "${SWITCH_DIR}" && mv wiliwili "${SWITCH_DIR}" || true
+write_version
 
 # hbmenu: 解压到根目录
 # ==================================================================
 APP_NAME="hbmenu" END_KEY="zip"
 # ==================================================================
 copy_from_resource "apps" && unzip_and_clean || true
+write_version
 
 # ------------------------------------------------------------------
 
