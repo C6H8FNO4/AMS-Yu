@@ -37,7 +37,7 @@ jobs:
 
       - name: Commit and push updates
         run: |
-          if git diff --quiet && git diff --cached --quiet; then
+          if [ -z "$(git status --porcelain)" ]; then
             echo "No updates detected."
           else
             git config user.name "github-actions[bot]"
