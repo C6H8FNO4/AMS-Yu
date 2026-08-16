@@ -149,11 +149,6 @@ APP_NAME="DBI" END_KEY="nro"
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/DBI" || true
 
 # ==================================================================
-APP_NAME="dbi" END_KEY="config"
-# ==================================================================
-copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/DBI" || true
-
-# ==================================================================
 APP_NAME="Awoo-Installer" END_KEY="zip"
 # ==================================================================
 copy_from_resource "apps" && unzip_and_clean || true
@@ -296,6 +291,8 @@ cp "${RESOURCE_DIR}/config_default/atmosphere/config/stratosphere.ini" "${ATMOSP
 cp "${RESOURCE_DIR}/config_default/atmosphere/config/system_settings.ini" "${ATMOSPHERE_DIR}/config/system_settings.ini"
 cp "${RESOURCE_DIR}/config_default/config/JKSV/webdav.json" "${CONFIG_DIR}/JKSV/webdav.json"
 cp "${RESOURCE_DIR}/config_default/config/sphaira/config.ini" "${CONFIG_DIR}/sphaira/config.ini"
+mkdir -p "${SWITCH_DIR}/DBI"
+cp "${RESOURCE_DIR}/config_default/switch/DBI/dbi.config" "${SWITCH_DIR}/DBI/dbi.config"
 
 if [ $? -ne 0 ]; then
     echo "Copying config files from resource \033[31m❌\033[0m"

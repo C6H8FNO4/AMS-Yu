@@ -130,7 +130,7 @@ check_and_download "CommonProblemResolver" "zdm65477730/CommonProblemResolver" "
 # Album nro apps
 check_and_download "Switch_90DNS_tester" "meganukebmp/Switch_90DNS_tester" "Switch_90DNS_tester.*[.]nro$" "nro" "resource/apps"
 check_and_download "DBI" "rashevskyv/dbi" "DBI.*[.]nro$" "nro" "resource/apps"
-check_and_download "dbi" "rashevskyv/dbi" "dbi.*[.]config$" "config" "resource/apps"
+check_and_download "dbi" "rashevskyv/dbi" "dbi.*[.]config$" "config" "resource/config_default/switch/DBI"
 check_and_download "Awoo-Installer" "Huntereb/Awoo-Installer" "Awoo-Installer.*[.]zip$" "zip" "resource/apps"
 check_and_download "HekateToolbox" "gzk47/Hekate-Toolbox" "HekateToolbox.*[.]nro$" "nro" "resource/apps"
 check_and_download "NX-Activity-Log" "zdm65477730/NX-Activity-Log" "NX-Activity-Log.*[.]nro$" "nro" "resource/apps"

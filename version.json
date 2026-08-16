@@ -35,10 +35,6 @@
     "version": "905ru",
     "tag": "905ru"
   },
-  "dbi": {
-    "version": "905ru",
-    "tag": "905ru"
-  },
   "Awoo-Installer": {
     "version": "1.3.6",
     "tag": "1.3.6"
@@ -130,5 +126,9 @@
   "hbl": {
     "version": "2.4.5",
     "tag": "v2.4.5"
+  },
+  "dbi": {
+    "version": "905ru",
+    "tag": "905ru"
   }
 }
