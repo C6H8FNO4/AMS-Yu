@@ -361,18 +361,18 @@ ENDOFFILE
 # ------------------------------------------------------------------
 # Copy config files from resource directory
 # ------------------------------------------------------------------
-cp ../resource/exosphere.ini ./exosphere.ini
-cp ../resource/boot.ini ./boot.ini
-cp ../resource/bootloader/hekate_ipl.ini ./bootloader/hekate_ipl.ini
-cp ../resource/bootloader/ini/more.ini ./bootloader/ini/more.ini
-cp ../resource/atmosphere/hosts/default.txt ./atmosphere/hosts/default.txt
-cp ../resource/atmosphere/hosts/emummc.txt ./atmosphere/hosts/emummc.txt
-cp ../resource/atmosphere/hosts/sysmmc.txt ./atmosphere/hosts/sysmmc.txt
-cp ../resource/atmosphere/config/override_config.ini ./atmosphere/config/override_config.ini
-cp ../resource/atmosphere/config/stratosphere.ini ./atmosphere/config/stratosphere.ini
-cp ../resource/atmosphere/config/system_settings.ini ./atmosphere/config/system_settings.ini
-cp ../resource/config/JKSV/webdav.json ./config/JKSV/webdav.json
-cp ../resource/config/sphaira/config.ini ./config/sphaira/config.ini
+cp ../resource/config_default/exosphere.ini ./exosphere.ini
+cp ../resource/config_default/boot.ini ./boot.ini
+cp ../resource/config_default/bootloader/hekate_ipl.ini ./bootloader/hekate_ipl.ini
+cp ../resource/config_default/bootloader/ini/more.ini ./bootloader/ini/more.ini
+cp ../resource/config_default/atmosphere/hosts/default.txt ./atmosphere/hosts/default.txt
+cp ../resource/config_default/atmosphere/hosts/emummc.txt ./atmosphere/hosts/emummc.txt
+cp ../resource/config_default/atmosphere/hosts/sysmmc.txt ./atmosphere/hosts/sysmmc.txt
+cp ../resource/config_default/atmosphere/config/override_config.ini ./atmosphere/config/override_config.ini
+cp ../resource/config_default/atmosphere/config/stratosphere.ini ./atmosphere/config/stratosphere.ini
+cp ../resource/config_default/atmosphere/config/system_settings.ini ./atmosphere/config/system_settings.ini
+cp ../resource/config_default/config/JKSV/webdav.json ./config/JKSV/webdav.json
+cp ../resource/config_default/config/sphaira/config.ini ./config/sphaira/config.ini
 
 if [ $? -ne 0 ]; then
     echo "Copying config files from resource \033[31m❌\033[0m"
