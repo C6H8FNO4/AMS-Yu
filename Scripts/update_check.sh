@@ -161,12 +161,12 @@ check_firmware() {
 # ------------------------------------------------------------------
 
 # Core suite
-check_and_download "atmosphere" "Atmosphere-NX/Atmosphere" "atmosphere.*[.]zip$" "zip" "resource/base"
-check_and_download "hekate" "easyworld/hekate" "_sc.*[.]zip$" "zip" "resource/base"
-check_and_download "sys-patch" "gzk47/sys-patch" "sys-patch.*[.]zip$" "zip" "resource/base"
+check_and_download "Atmosphere" "Atmosphere-NX/Atmosphere" "atmosphere.*[.]zip$" "zip" "resource/base"
+check_and_download "Hekate" "easyworld/hekate" "_sc.*[.]zip$" "zip" "resource/base"
+check_and_download "Sys-patch" "gzk47/sys-patch" "sys-patch.*[.]zip$" "zip" "resource/base"
 
 # Secondary boot payloads
-check_and_download "fusee" "Atmosphere-NX/Atmosphere" "fusee.*[.]bin$" "bin" "resource/Payloads"
+check_and_download "fusee" "Atmosphere-NX/Atmosphere" "fusee.*[.]bin$" "bin" "resource/base"
 check_and_download "Lockpick_RCM" "impeeza/Lockpick_RCMDecScots" "Lockpick_RCM.*[.]bin$" "bin" "resource/Payloads"
 check_and_download "TegraExplorer" "zdm65477730/TegraExplorer" "TegraExplorer.*[.]bin$" "bin" "resource/Payloads"
 check_and_download "CommonProblemResolver" "zdm65477730/CommonProblemResolver" "CommonProblemResolver.*[.]bin$" "bin" "resource/Payloads"
@@ -200,5 +200,5 @@ check_and_download "hbmenu" "switchbrew/nx-hbmenu" "nx-hbmenu.*[.]zip$" "zip" "r
 check_and_download "hbl" "switchbrew/nx-hbloader" "hbl.*[.]nsp$" "nsp" "resource/apps"
 
 # Firmware (from Nintendo-FW-UPDATE)
-check_and_download "Firmware" "C6H8FNO4/Nintendo-FW-UPDATE" "Firmware.*[.]zip$" "zip" "resource/firmware"
+check_firmware
 

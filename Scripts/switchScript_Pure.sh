@@ -99,7 +99,7 @@ copy_from_resource "base" && unzip_and_clean || true
 # ==================================================================
 APP_NAME="Sys-patch" END_KEY="zip"
 # ==================================================================
-copy_from_resource "apps" && unzip_and_clean || true
+copy_from_resource "base" && unzip_and_clean || true
 
 rm -rf "${SWITCH_DIR}/.overlays"
 
