@@ -115,6 +115,44 @@ check_and_download() {
 }
 
 # ------------------------------------------------------------------
+# Firmware update (from Nintendo-FW-UPDATE)
+# ------------------------------------------------------------------
+
+# Download latest firmware zip to resource/firmware
+# The release tag is fixed as "latest", so use the release name
+# (e.g. "Firmware 22.5.0") as the version identifier.
+check_firmware() {
+    APP_NAME="firmware"
+    REPO="C6H8FNO4/Nintendo-FW-UPDATE"
+    FILE_PATTERN="Firmware[.]zip$"
+    END_KEY="zip"
+    TARGET_DIR="resource/firmware"
+
+    read_version
+
+    fetch_api_latest
+    # tag is fixed "latest"; use release name as version
+    TAG=$(jq -r '.name' latest.json)
+    VERSION=$(echo "${TAG}" | sed 's/^Firmware //')
+
+    if [ -z "${TAG}" ]; then
+        echo "${APP_NAME} \033[31m未找到匹配资产\033[0m"
+        return 0
+    fi
+
+    if ! has_update; then
+        echo "${APP_NAME} \033[33m已是最新 (${LAST_TAG})\033[0m"
+        return 0
+    fi
+
+    mkdir -p "${TARGET_DIR}"
+    download_file_latest
+    mv "${APP_NAME}.${END_KEY}" "${TARGET_DIR}/Firmware.zip"
+    check_result
+    record_version
+}
+
+# ------------------------------------------------------------------
 # Working Directory Initialization
 # ------------------------------------------------------------------
 
@@ -162,3 +200,6 @@ check_and_download "nxdumptool" "DarkMatterCore/nxdumptool" "nxdt_rw_poc.*[.]nro
 check_and_download "sphaira" "ITotalJustice/sphaira" "sphaira[.]zip$" "zip" "resource/apps"
 check_and_download "hbmenu" "switchbrew/nx-hbmenu" "nx-hbmenu.*[.]zip$" "zip" "resource/apps"
 check_and_download "hbl" "switchbrew/nx-hbloader" "hbl.*[.]nsp$" "nsp" "resource/apps"
+
+# Firmware (from Nintendo-FW-UPDATE)
+check_firmware
