@@ -130,5 +130,17 @@
   "hbl": {
     "version": "2.4.5",
     "tag": "v2.4.5"
+  },
+  "atmosphere": {
+    "version": "1.11.2",
+    "tag": "1.11.2"
+  },
+  "hekate": {
+    "version": "6.5.3",
+    "tag": "v6.5.3"
+  },
+  "sys-patch": {
+    "version": "1.6.2.3-f79eb89",
+    "tag": "v1.6.2.3-f79eb89"
   }
 }
