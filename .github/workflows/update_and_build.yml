@@ -80,4 +80,3 @@ jobs:
           make_latest: true
           files: |
             AMS-*.zip
-            resource/firmware/Firmware.zip

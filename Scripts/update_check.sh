@@ -16,28 +16,16 @@ fetch_api() {
     API_URL="https://api.github.com/repos/${REPO}/releases"
     curl -H "${API_AUTH}" -H "${API_VER}" -o latest.json -sL "${API_URL}"
 }
-fetch_api_latest() {
-    API_URL="https://api.github.com/repos/${REPO}/releases/latest"
-    curl -H "${API_AUTH}" -H "${API_VER}" -o latest.json -sL "${API_URL}"
-}
 
 # Parse version tag from JSON
 get_version() {
     TAG=$(jq -r 'first(.[]|select(.assets|any(.name|test("'"${FILE_PATTERN}"'")))).tag_name' latest.json)
     VERSION=$(echo "${TAG}" | sed 's/^v//')
 }
-get_version_latest() {
-    TAG=$(jq -r '.tag_name' latest.json)
-    VERSION=$(echo "${TAG}" | sed 's/^v//')
-}
 
 # Download matched asset from GitHub release
 download_file() {
     DL_URL=$(jq -r 'first(.[]|select(.assets|any(.name|test("'"${FILE_PATTERN}"'")))).assets[] | select(.name|test("'"${FILE_PATTERN}"'")) | .browser_download_url' latest.json)
-    curl -sL "${DL_URL}" -o "${APP_NAME}.${END_KEY}"
-}
-download_file_latest() {
-    DL_URL=$(jq -r '.assets[] | select(.name|test("'"${FILE_PATTERN}"'")) | .browser_download_url' latest.json)
     curl -sL "${DL_URL}" -o "${APP_NAME}.${END_KEY}"
 }
 
@@ -119,42 +107,6 @@ check_and_download() {
 }
 
 # ------------------------------------------------------------------
-# Firmware update (from Nintendo-FW-UPDATE)
-# ------------------------------------------------------------------
-
-# Download latest firmware zip to resource/firmware
-# Firmware is too large to commit (>100MB GitHub limit), so it is
-# downloaded on demand and only when the file is missing.
-check_firmware() {
-    APP_NAME="firmware"
-    REPO="C6H8FNO4/Nintendo-FW-UPDATE"
-    FILE_PATTERN="Firmware[.]zip$"
-    END_KEY="zip"
-    TARGET_DIR="resource/firmware"
-
-    # Skip if already downloaded (avoids re-downloading on every CI run)
-    if [ -f "${TARGET_DIR}/Firmware.zip" ]; then
-        echo "${APP_NAME} \033[33m已存在 (${TARGET_DIR}/Firmware.zip)\033[0m"
-        return 0
-    fi
-
-    fetch_api_latest
-    # tag is fixed "latest"; use release name as version
-    TAG=$(jq -r '.name' latest.json)
-    VERSION=$(echo "${TAG}" | sed 's/^Firmware //')
-
-    if [ -z "${TAG}" ]; then
-        echo "${APP_NAME} \033[31m未找到匹配资产\033[0m"
-        return 0
-    fi
-
-    mkdir -p "${TARGET_DIR}"
-    download_file_latest
-    mv "${APP_NAME}.${END_KEY}" "${TARGET_DIR}/Firmware.zip"
-    check_result
-}
-
-# ------------------------------------------------------------------
 # Working Directory Initialization
 # ------------------------------------------------------------------
 
@@ -202,7 +154,4 @@ check_and_download "nxdumptool" "DarkMatterCore/nxdumptool" "nxdt_rw_poc.*[.]nro
 check_and_download "sphaira" "ITotalJustice/sphaira" "sphaira[.]zip$" "zip" "resource/apps"
 check_and_download "hbmenu" "switchbrew/nx-hbmenu" "nx-hbmenu.*[.]zip$" "zip" "resource/apps"
 check_and_download "hbl" "switchbrew/nx-hbloader" "hbl.*[.]nsp$" "nsp" "resource/apps"
-
-# Firmware (from Nintendo-FW-UPDATE)
-check_firmware
 
