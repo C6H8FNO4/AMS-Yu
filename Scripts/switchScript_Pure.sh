@@ -189,11 +189,6 @@ APP_NAME="Aio-switch-updater" END_KEY="zip"
 copy_from_resource "apps" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="wiliwili" END_KEY="zip"
-# ==================================================================
-copy_from_resource "apps" && unzip_and_clean || true
-
-# ==================================================================
 APP_NAME="SimpleModDownloader" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/SimpleModDownloader" || true
@@ -259,14 +254,25 @@ APP_NAME="sphaira" END_KEY="zip"
 copy_from_resource "apps" && unzip_and_clean || true
 
 # ==================================================================
-APP_NAME="hbmenu" END_KEY="zip"
-# ==================================================================
-copy_from_resource "apps" && unzip_and_clean && mkdir -p "${SWITCH_DIR}" && mv hbmenu.nro "${SWITCH_DIR}" || true
-
-# ==================================================================
 APP_NAME="hbl" END_KEY="nsp"
 # ==================================================================
 copy_from_resource "apps" && mv "${APP_NAME}.${END_KEY}" "${ATMOSPHERE_DIR}" || true
+
+# ------------------------------------------------------------------
+# special download: 特殊软件，解压到特定位置
+# ------------------------------------------------------------------
+
+# wiliwili: 解压到 switch/ 文件夹
+# ==================================================================
+APP_NAME="wiliwili" END_KEY="zip"
+# ==================================================================
+copy_from_resource "apps" && unzip_and_clean && mkdir -p "${SWITCH_DIR}" && mv wiliwili "${SWITCH_DIR}" || true
+
+# hbmenu: 解压到根目录
+# ==================================================================
+APP_NAME="hbmenu" END_KEY="zip"
+# ==================================================================
+copy_from_resource "apps" && unzip_and_clean || true
 
 # ------------------------------------------------------------------
 
