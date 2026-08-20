@@ -72,13 +72,15 @@ record_version() {
 # ------------------------------------------------------------------
 
 # Check for update, download if new, record version
-# Usage: check_and_download "APP_NAME" "REPO" "FILE_PATTERN" "END_KEY" "TARGET_DIR"
+# Usage: check_and_download "APP_NAME" "REPO" "FILE_PATTERN" "END_KEY" "TARGET_DIR" ["FORCE"]
+# FORCE=1: 每次强制重新下载（用于 tag 固定不变、无法通过 tag 判断更新的软件）
 check_and_download() {
     APP_NAME="$1"
     REPO="$2"
     FILE_PATTERN="$3"
     END_KEY="$4"
     TARGET_DIR="$5"
+    FORCE="${6:-0}"
 
     read_version
 
@@ -90,7 +92,7 @@ check_and_download() {
         return 0
     fi
 
-    if ! has_update; then
+    if [ "${FORCE}" != "1" ] && ! has_update; then
         # 若目标文件不存在（如目录变更后首次运行），仍强制下载
         if [ -f "${TARGET_DIR}/${APP_NAME}.${END_KEY}" ]; then
             echo "${APP_NAME} \033[33m已是最新 (${LAST_TAG})\033[0m"
@@ -150,7 +152,7 @@ check_and_download "Haku33" "StarDustCFW/Haku33" "Haku33.*[.]nro$" "nro" "resour
 check_and_download "linkalho" "impeeza/linkalho" "linkalho.*[.]zip$" "zip" "resource/apps"
 check_and_download "Checkpoint" "BernardoGiordano/Checkpoint" "Checkpoint.*[.]nro$" "nro" "resource/apps"
 check_and_download "ftpd" "mtheall/ftpd" "ftpd[.]nro$" "nro" "resource/apps"
-check_and_download "nxdumptool" "DarkMatterCore/nxdumptool" "nxdt_rw_poc.*[.]nro$" "nro" "resource/apps"
+check_and_download "nxdumptool" "DarkMatterCore/nxdumptool" "nxdt_rw_poc.*[.]nro$" "nro" "resource/apps" "1"
 check_and_download "sphaira" "ITotalJustice/sphaira" "sphaira[.]zip$" "zip" "resource/apps"
 check_and_download "hbmenu" "switchbrew/nx-hbmenu" "nx-hbmenu.*[.]zip$" "zip" "resource/apps"
 check_and_download "hbl" "switchbrew/nx-hbloader" "hbl.*[.]nsp$" "nsp" "resource/apps"
