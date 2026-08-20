@@ -57,6 +57,7 @@ BOOTLOADER_DIR="bootloader"
 PAYLOAD_DIR="bootloader/payloads"
 SWITCH_DIR="switch"
 CONFIG_DIR="config"
+OVERLAY_DIR="switch/.overlays"
 
 # ------------------------------------------------------------------
 # Working Directory Initialization
@@ -277,6 +278,24 @@ write_version
 APP_NAME="hbl" END_KEY="nsp"
 # ==================================================================
 copy_from_resource "apps" && mv "${APP_NAME}.${END_KEY}" "${ATMOSPHERE_DIR}" || true
+write_version
+
+# ==================================================================
+APP_NAME="nx-ovlloader" END_KEY="zip"
+# ==================================================================
+copy_from_resource "apps" && unzip_and_clean || true
+write_version
+
+# ==================================================================
+APP_NAME="ovlmenu" END_KEY="ovl"
+# ==================================================================
+copy_from_resource "others/Ultrahand-Overlay" && move_to_dir "${OVERLAY_DIR}" || true
+write_version
+
+# ==================================================================
+APP_NAME="lang" END_KEY="zip"
+# ==================================================================
+copy_from_resource "others/Ultrahand-Overlay" && mkdir -p "${CONFIG_DIR}/ultrahand/lang" && unzip -oq "${APP_NAME}.${END_KEY}" -d "${CONFIG_DIR}/ultrahand/lang" && rm -f "${APP_NAME}.${END_KEY}" || true
 write_version
 
 # ------------------------------------------------------------------

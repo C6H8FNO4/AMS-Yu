@@ -25,7 +25,6 @@
     - [x] 黑商店 `hb-appstore`  [From Here](https://github.com/fortheusers/hb-appstore/releases/latest)
     - [x] Goldleaf金叶子 `Goldleaf` [From Here](https://github.com/XorTroll/Goldleaf/releases/latest)
     - [x] 重启/关机 工具 `Safe_Reboot_Shutdown` [From Here](https://github.com/dezem/Safe_Reboot_Shutdown/releases/latest)
-    - [x] 固件提取 工具 `Firmware-Dumper` [From Here](https://github.com/zdm65477730/Switch-Firmware-Dumper/releases/latest)
     - [x] 游戏提取 工具 `nxdumptool` [From Here](https://github.com/DarkMatterCore/nxdumptool/releases)
     - [x] 系统洗白 工具 `Haku33` [From Here](https://github.com/StarDustCFW/Haku33/releases/latest)
     - [x] 离线关联账号 `linkalho` [From Here](https://github.com/)

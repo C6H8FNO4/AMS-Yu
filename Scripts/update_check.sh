@@ -154,4 +154,7 @@ check_and_download "nxdumptool" "DarkMatterCore/nxdumptool" "nxdt_rw_poc.*[.]nro
 check_and_download "sphaira" "ITotalJustice/sphaira" "sphaira[.]zip$" "zip" "resource/apps"
 check_and_download "hbmenu" "switchbrew/nx-hbmenu" "nx-hbmenu.*[.]zip$" "zip" "resource/apps"
 check_and_download "hbl" "switchbrew/nx-hbloader" "hbl.*[.]nsp$" "nsp" "resource/apps"
+check_and_download "nx-ovlloader" "ppkantorski/nx-ovlloader" "nx-ovlloader[.]zip$" "zip" "resource/apps"
+check_and_download "ovlmenu" "ppkantorski/Ultrahand-Overlay" "ovlmenu[.]ovl$" "ovl" "resource/others/Ultrahand-Overlay"
+check_and_download "lang" "ppkantorski/Ultrahand-Overlay" "lang[.]zip$" "zip" "resource/others/Ultrahand-Overlay"
 
