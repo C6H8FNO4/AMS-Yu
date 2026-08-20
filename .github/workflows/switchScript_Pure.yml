@@ -51,7 +51,7 @@ jobs:
           chmod +x $SCRIPT_SH
           ./$SCRIPT_SH
           
-          APP_NAME="心悦大气层中文整合包"
+          APP_NAME="鱼子酱的大气层中文整合包"
           VER_FILE="description.txt"
           KEY="Atmosphere"
           
