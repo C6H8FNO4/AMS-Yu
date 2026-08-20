@@ -67,10 +67,6 @@
     "version": "1.6.0",
     "tag": "v1.6.0"
   },
-  "SimpleModDownloader": {
-    "version": "2.3.0",
-    "tag": "2.3.0"
-  },
   "Switchfin": {
     "version": "0.9.3",
     "tag": "0.9.3"
@@ -82,10 +78,6 @@
   "appstore": {
     "version": "2.3.2",
     "tag": "v2.3.2"
-  },
-  "ReverseNX-Tool": {
-    "version": "3.2.1-1cab24e",
-    "tag": "v3.2.1-1cab24e"
   },
   "Goldleaf": {
     "version": "1.2.0",

@@ -209,12 +209,6 @@ copy_from_resource "apps" && unzip_and_clean || true
 write_version
 
 # ==================================================================
-APP_NAME="SimpleModDownloader" END_KEY="nro"
-# ==================================================================
-copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/SimpleModDownloader" || true
-write_version
-
-# ==================================================================
 APP_NAME="Switchfin" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/Switchfin" || true
@@ -230,12 +224,6 @@ write_version
 APP_NAME="appstore" END_KEY="nro"
 # ==================================================================
 copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/appstore" || true
-write_version
-
-# ==================================================================
-APP_NAME="ReverseNX-Tool" END_KEY="nro"
-# ==================================================================
-copy_from_resource "apps" && move_to_dir "${SWITCH_DIR}/ReverseNX-Tool" || true
 write_version
 
 # ==================================================================
