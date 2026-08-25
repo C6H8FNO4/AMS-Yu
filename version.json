@@ -134,5 +134,9 @@
   "dbi": {
     "version": "905ru",
     "tag": "905ru"
+  },
+  "payload": {
+    "version": "6.5.3",
+    "tag": "v6.5.3"
   }
 }

@@ -316,6 +316,13 @@ APP_NAME="hbmenu" END_KEY="zip"
 copy_from_resource "apps" && unzip_and_clean || true
 write_version
 
+# payload.bin (hekate): 放置到根目录
+# ==================================================================
+APP_NAME="payload" END_KEY="bin"
+# ==================================================================
+copy_from_resource "apps" || true
+write_version
+
 # ------------------------------------------------------------------
 
 cat >> "${DESCRIPTION_FILE}" << ENDOFFILE
