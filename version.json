@@ -32,8 +32,8 @@
     "tag": "v1.1.0"
   },
   "DBI": {
-    "version": "905ru",
-    "tag": "905ru"
+    "version": "912ru",
+    "tag": "912ru"
   },
   "Awoo-Installer": {
     "version": "1.3.6",
@@ -132,8 +132,8 @@
     "tag": "v2.5.3"
   },
   "dbi": {
-    "version": "905ru",
-    "tag": "905ru"
+    "version": "912ru",
+    "tag": "912ru"
   },
   "payload": {
     "version": "6.5.3",
