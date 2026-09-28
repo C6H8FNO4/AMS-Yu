@@ -1,7 +1,7 @@
 {
   "Atmosphere": {
-    "version": "1.11.2",
-    "tag": "1.11.2"
+    "version": "1.12.0",
+    "tag": "1.12.0"
   },
   "Hekate": {
     "version": "6.5.3",
@@ -12,8 +12,8 @@
     "tag": "v1.6.2.3-f79eb89"
   },
   "fusee": {
-    "version": "1.11.2",
-    "tag": "1.11.2"
+    "version": "1.12.0",
+    "tag": "1.12.0"
   },
   "Lockpick_RCM": {
     "version": "1.9.20",
