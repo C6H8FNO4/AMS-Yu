@@ -49,7 +49,6 @@
     - [x] 在 `atmosphere/config` 文件夹中创建 `override_config.ini`
     - [x] 在 `atmosphere/config` 文件夹中创建 `stratosphere.ini`
     - [x] 在 `atmosphere/config` 文件夹中创建 `system_settings.ini`
-    - [x] 删除 `插件自启动`
 
 ### 这里是鱼子酱
-此仓库所制作的整合包的定位就是稳定能玩 因为本人是初代switch 也没啥超频的必要 所以本仓库会避免使用极限超频和特斯拉 但是会有一些雀雀实实能增加体验的插件
+此仓库所制作的整合包的定位就是稳定能玩 ~~(其实不一定稳定)~~ 因为本人是初代switch 也没啥超频的必要 ~~所以本仓库会避免使用极限超频和特斯拉~~ 但是会有一些雀雀实实能增加体验的插件
